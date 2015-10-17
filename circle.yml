@@ -9,6 +9,6 @@ dependencies:
   override:
     - ./install-dependencies.sh
 
-test:
-  override:
-    - ./gradlew build
+#test:
+#  override:
+#    - ./gradlew build
