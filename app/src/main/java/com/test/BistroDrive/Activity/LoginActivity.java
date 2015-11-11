@@ -259,9 +259,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         private final String mEmail;
         private final String mPassword;
         private List<String> strPubs= new <String>ArrayList();
+        private String tokenStr="111111";
         Intent myIntent;
-        String resultJson = "";
-        List<String> allStr=null;
+        private String resultJson = "";
+        private List<String> allStr=null;
 
         UserLoginTask(String email, String password) {
             mEmail = email;
@@ -277,7 +278,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 map.put("login",mEmail);
                 map.put("password",mPassword);
                 resultJson = performPostCallAuth(urlStr, map);
-                Log.d("11111111",resultJson);
+                Log.d("LOGINACITIVITY",resultJson);
                 }catch (Exception e){
                 e.printStackTrace();
             }
@@ -287,12 +288,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
             try {
                 dataJsonObj = new JSONObject(resultJson);
-                //JSONObject jObj = dataJsonObj.getJSONObject("Status");
                 String statusStr = dataJsonObj.getString("Status");
                 if (!statusStr.equals("OK")) return false;
                 JSONObject tokenJsonObj = dataJsonObj.getJSONObject("Result");
-                String tokenStr = tokenJsonObj.getString("Token");
-
+                tokenStr = tokenJsonObj.getString("Token");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -306,8 +305,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(false);
             if (success) {
                 myIntent = new Intent(LoginActivity.this,MainActivity.class);
-                myIntent.putExtra("login", mEmail);
-                myIntent.putStringArrayListExtra("pubs", (ArrayList<String>) strPubs);
+                myIntent.putExtra("token", tokenStr);
                 startActivity(myIntent);
                 finish();
             } else {
@@ -338,7 +336,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         URL url;
         String response = "";
-        postDataParams.get("login");
         HttpURLConnection conn=null;
         try {
             url = new URL(requestURL);

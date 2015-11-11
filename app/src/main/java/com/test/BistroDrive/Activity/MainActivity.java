@@ -1,5 +1,6 @@
 package com.test.BistroDrive.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.app.Fragment;
@@ -17,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.test.BistroDrive.Fragments.FirstFragment;
+import com.test.BistroDrive.Fragments.ProfileFragment;
 import com.test.BistroDrive.Fragments.SecondFragment;
 import com.test.BistroDrive.R;
 
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.onS
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        bundle = getIntent().getExtras();
         myTitle =  getTitle();
         myDrawerTitle = getResources().getString(R.string.menu);
 
@@ -103,6 +106,10 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.onS
             case 1:
                 fragment = new SecondFragment();
                 bundle.putString("result",result);
+                fragment.setArguments(bundle);
+                break;
+            case 2:
+                fragment = new ProfileFragment();
                 fragment.setArguments(bundle);
                 break;
             default:
