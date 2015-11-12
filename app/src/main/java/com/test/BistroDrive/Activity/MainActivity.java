@@ -1,10 +1,10 @@
 package com.test.BistroDrive.Activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import android.app.Fragment;
 import android.content.res.Configuration;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.test.BistroDrive.Fragments.FirstFragment;
+import com.test.BistroDrive.Fragments.InputOrdersFragment;
 import com.test.BistroDrive.Fragments.ProfileFragment;
 import com.test.BistroDrive.Fragments.SecondFragment;
 import com.test.BistroDrive.R;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.onS
 
     Bundle bundle = new Bundle();
     public String result="a";
+
 
     private DrawerLayout myDrawerLayout;
     private ListView myDrawerList;
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.onS
         setContentView(R.layout.activity_main);
 
         bundle = getIntent().getExtras();
+
         myTitle =  getTitle();
         myDrawerTitle = getResources().getString(R.string.menu);
 
@@ -58,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.onS
 
         // enabling action bar app icon and behaving it as toggle button
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         myDrawerToggle = new ActionBarDrawerToggle(this, myDrawerLayout,
@@ -110,6 +114,10 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.onS
                 break;
             case 2:
                 fragment = new ProfileFragment();
+                fragment.setArguments(bundle);
+                break;
+            case 3:
+                fragment = new InputOrdersFragment();
                 fragment.setArguments(bundle);
                 break;
             default:
@@ -194,4 +202,5 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.onS
     public void someEvent(String s) {
         result = s;
     }
+
 }

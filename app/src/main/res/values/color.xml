@@ -2,6 +2,10 @@
 <resources>
     <color name="list_background">#000</color>
     <color name="list_background_pressed">#ccc</color>
-    <color name="drawer_item_color">#fff</color>
+    <color name="drawer_item_color">#000</color>
     <color name="list_divider">#5e5e5e</color>
+
+    <color name="colorPrimary">#00acc1</color>
+    <color name="colorPrimaryDark">#008a9a</color>
+    <color name="mainBackground">#e2e2e2</color>
 </resources>

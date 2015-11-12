@@ -7,6 +7,7 @@
         <item>Главная</item>
         <item>Мои предложения</item>
         <item>Мой профиль</item>
+        <item>Входящие заказы</item>
     </string-array>
     <string name="menu">Меню</string>
     <string name="first_screen">Мой профиль</string>

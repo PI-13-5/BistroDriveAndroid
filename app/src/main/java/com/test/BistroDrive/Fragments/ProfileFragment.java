@@ -31,7 +31,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -39,10 +38,9 @@ public class ProfileFragment extends Fragment{
 
     private View mProgressView;
     private View mProfileFormView;
+    private View mProfileFormScrollView;
 
     private ParserProfile mProfileTask = null;
-
-    List<String> parsedArr;
 
     TextView textViewEmail;
     TextView textViewUserName;
@@ -66,6 +64,15 @@ public class ProfileFragment extends Fragment{
                 }
             });
 
+            mProfileFormScrollView.setVisibility(show ? View.GONE : View.VISIBLE);
+            mProfileFormScrollView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mProfileFormScrollView.setVisibility(show ? View.GONE : View.VISIBLE);
+                }
+            });
+
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mProgressView.animate().setDuration(shortAnimTime).alpha(
                     show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
@@ -79,6 +86,7 @@ public class ProfileFragment extends Fragment{
             // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mProfileFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            mProfileFormScrollView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
 
@@ -96,6 +104,7 @@ public class ProfileFragment extends Fragment{
         View v = getView();
         mProgressView = v.findViewById(R.id.profile_progress);
         mProfileFormView = v.findViewById(R.id.profile);
+        mProfileFormScrollView = v.findViewById(R.id.scrollProfile);
 
         textViewEmail = (TextView) getActivity().findViewById(R.id.email);
         textViewUserName = (TextView) getActivity().findViewById(R.id.name);
