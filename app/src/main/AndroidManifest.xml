@@ -23,6 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activity.MainActivity"/>
+        <activity android:name=".Activity.OrderActivity" android:noHistory="true"/>
     </application>
 
 </manifest>

@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import android.app.Fragment;
 import android.content.res.Configuration;
-import android.support.design.widget.TabLayout;
+import android.os.PersistableBundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +19,7 @@ import android.widget.ListView;
 
 import com.test.BistroDrive.Fragments.FirstFragment;
 import com.test.BistroDrive.Fragments.InputOrdersFragment;
+import com.test.BistroDrive.Fragments.OutputOrdersFragment;
 import com.test.BistroDrive.Fragments.ProfileFragment;
 import com.test.BistroDrive.Fragments.SecondFragment;
 import com.test.BistroDrive.R;
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.onS
 
     Bundle bundle = new Bundle();
     public String result="a";
-
+    int pos;
 
     private DrawerLayout myDrawerLayout;
     private ListView myDrawerList;
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.onS
         if (savedInstanceState == null) {
             // on first time display view for first nav item
             displayView(0);
+            pos=0;
         }
 
         myDrawerList.setOnItemClickListener(new DrawerItemClickListener());
@@ -97,7 +99,14 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.onS
         ) {
             // display view for selected nav drawer item
             displayView(position);
+            pos=position;
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putInt("position",pos);
     }
 
     private void displayView(int position) {
@@ -107,17 +116,21 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.onS
             case 0:
                 fragment = new FirstFragment();
                 break;
-            case 1:
+/*            case 1:
                 fragment = new SecondFragment();
                 bundle.putString("result",result);
                 fragment.setArguments(bundle);
-                break;
-            case 2:
+                break;*/
+            case 1:
                 fragment = new ProfileFragment();
                 fragment.setArguments(bundle);
                 break;
-            case 3:
+            case 2:
                 fragment = new InputOrdersFragment();
+                fragment.setArguments(bundle);
+                break;
+            case 3:
+                fragment = new OutputOrdersFragment();
                 fragment.setArguments(bundle);
                 break;
             default:
