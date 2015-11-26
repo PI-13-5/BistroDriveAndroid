@@ -4,7 +4,7 @@
     <string name="app_name">BistroDrive</string>
     <string name="action_settings">Settings</string>
     <string-array name="views_array">
-        <item>Главная</item>
+        <item>Предложения</item>
         <item>Мой профиль</item>
         <item>Входящие заказы</item>
         <item>Исходящие заказы</item>

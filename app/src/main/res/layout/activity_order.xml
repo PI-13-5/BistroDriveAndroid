@@ -3,16 +3,22 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <ProgressBar android:id="@+id/order_progress" style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="8dp" android:visibility="gone" />
+
     <ScrollView
         android:id="@+id/scrollOrder"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
 
 
     <TextView
@@ -21,8 +27,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Статус заказа"
         android:id="@+id/orderHeader"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_gravity="center_horizontal" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -30,9 +35,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
         android:id="@+id/orderDeadline"
-        android:layout_below="@+id/orderHeader"
-        android:layout_toLeftOf="@+id/orderHeader"
-        android:layout_toStartOf="@+id/orderHeader"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="27dp" />
 
     <TextView
@@ -41,9 +44,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
         android:id="@+id/orderIngredientBuyer"
-        android:layout_below="@+id/orderDeadline"
-        android:layout_toLeftOf="@+id/orderHeader"
-        android:layout_toStartOf="@+id/orderHeader"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="27dp" />
 
     <TextView
@@ -52,9 +53,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
         android:id="@+id/orderPayment"
-        android:layout_below="@+id/orderIngredientBuyer"
-        android:layout_toLeftOf="@+id/orderHeader"
-        android:layout_toStartOf="@+id/orderHeader"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="27dp" />
 
     <TextView
@@ -63,9 +62,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
         android:id="@+id/orderDelivery"
-        android:layout_below="@+id/orderPayment"
-        android:layout_toLeftOf="@+id/orderHeader"
-        android:layout_toStartOf="@+id/orderHeader"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="27dp" />
 
     <TextView
@@ -74,11 +71,8 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
         android:id="@+id/orderTotal"
-        android:layout_below="@+id/orderDelivery"
-        android:layout_toLeftOf="@+id/orderHeader"
-        android:layout_toStartOf="@+id/orderHeader"
         android:layout_marginTop="27dp"
-        android:layout_marginLeft="5dp" />
+        android:layout_marginLeft="15dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -87,15 +81,11 @@
         android:text="Повар"
         android:id="@+id/orderCookHeader"
         android:layout_marginTop="29dp"
-        android:layout_below="@+id/orderTotal"
-        android:layout_centerHorizontal="true" />
+        android:layout_gravity="center_horizontal" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/orderCookHeader"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:id="@+id/relativeLayout">
 
         <ImageView
@@ -116,11 +106,17 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
             android:id="@+id/orderCookText"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/orderEmail"
+            android:text="Medium Text"
             android:layout_alignBottom="@+id/orderCookAvatar"
-            android:layout_toRightOf="@+id/orderCookAvatar"
-            android:layout_toEndOf="@+id/orderCookAvatar"
-            android:layout_marginLeft="30dp"
-            android:layout_marginBottom="25dp" />
+            android:layout_alignLeft="@+id/orderCookText"
+            android:layout_alignStart="@+id/orderCookText" />
     </RelativeLayout>
 
     <TextView
@@ -129,20 +125,17 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Комментарии"
         android:id="@+id/orderCommentHeader"
-        android:layout_below="@+id/relativeLayout"
-        android:layout_centerHorizontal="true" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="Комментариев нет"
         android:id="@+id/orderComment"
-        android:layout_below="@+id/orderCommentHeader"
-        android:layout_alignLeft="@+id/orderTotal"
-        android:layout_alignStart="@+id/orderTotal"
         android:layout_marginTop="30dp" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
     </ScrollView>
 

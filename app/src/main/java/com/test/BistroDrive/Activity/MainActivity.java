@@ -19,6 +19,7 @@ import android.widget.ListView;
 
 import com.test.BistroDrive.Fragments.FirstFragment;
 import com.test.BistroDrive.Fragments.InputOrdersFragment;
+import com.test.BistroDrive.Fragments.OffersFragment;
 import com.test.BistroDrive.Fragments.OutputOrdersFragment;
 import com.test.BistroDrive.Fragments.ProfileFragment;
 import com.test.BistroDrive.Fragments.SecondFragment;
@@ -114,7 +115,8 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.onS
         Fragment fragment = null;
         switch (position) {
             case 0:
-                fragment = new FirstFragment();
+                fragment = new OffersFragment();
+                fragment.setArguments(bundle);
                 break;
 /*            case 1:
                 fragment = new SecondFragment();

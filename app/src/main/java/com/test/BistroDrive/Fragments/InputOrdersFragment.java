@@ -19,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.test.BistroDrive.Activity.OrderActivity;
 import com.test.BistroDrive.R;
@@ -36,6 +35,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +57,8 @@ public class InputOrdersFragment extends Fragment {
     private ParserInputOrders mInputOrdersTask = null;
 
     private ArrayList<String> myDataset = new ArrayList<String>();
+    private List<ArrayList<Object>> mLstOrders;
+    private ArrayList<String> cook,otherOrderInfo,customer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,12 +80,6 @@ public class InputOrdersFragment extends Fragment {
 
         intent = new Intent(getActivity().getApplicationContext(), OrderActivity.class);
 
-       // mRecyclerView = (RecyclerView) v.findViewById(R.id.my_recycler_view);
-
-        showProgress(true);
-        mInputOrdersTask = new ParserInputOrders(getArguments().getString("token"));
-        mInputOrdersTask.execute();
-
         if(myDataset.size()==0) {
             showProgress(true);
             mInputOrdersTask = new ParserInputOrders(getArguments().getString("token"));
@@ -99,6 +95,7 @@ public class InputOrdersFragment extends Fragment {
 
     private ArrayList<String> getDataSet(List<ArrayList<Object>> lstOrders) {
 
+        mLstOrders = lstOrders;
         ArrayList<String> mDataSet = new ArrayList<>();
         for (ArrayList<Object> lstOrder:lstOrders) {
             ArrayList<String> lstCustomer = (ArrayList<String>)lstOrder.get(11);
@@ -213,17 +210,28 @@ public class InputOrdersFragment extends Fragment {
                     ArrayList<Object> arrOrder = new ArrayList<Object>();
 
                     arrOrder.add(jOrder.getString("Id_Order"));//0
+                    SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     java.util.Date time=new java.util.Date(Long.parseLong(jOrder.getString("Deadline"))*1000);
-                    time.toString();
-                    arrOrder.add(time);//1
+                    String strDate = sdfDate.format(time);
+                    arrOrder.add(strDate);//1
                     arrOrder.add(jOrder.getString("IngridientsBuyer"));//2
                     arrOrder.add(jOrder.getString("Payment"));//3
                     arrOrder.add(jOrder.getString("Comunication"));//4
                     arrOrder.add(jOrder.getString("Delivery"));//5
                     arrOrder.add(jOrder.getString("Status"));//6
-                    arrOrder.add(jOrder.getString("Comment"));//7
+                    if (jOrder.getString("Comment")!="null") {
+                        arrOrder.add(jOrder.getString("Comment"));//7
+                    }
+                    else arrOrder.add(null);
                     arrOrder.add(jOrder.getString("Total"));//8
-                    arrOrder.add(jOrder.getString("FinishTime"));//9
+                    if (jOrder.getString("FinishTime")!="null") {
+                        time = new java.util.Date(Long.parseLong(jOrder.getString("FinishTime")) * 1000);
+                        strDate = sdfDate.format(time);
+                        arrOrder.add(strDate);//9
+                    }
+                    else{
+                        arrOrder.add(null);
+                    }
 
                     JSONObject jCook = jOrder.getJSONObject("Cook");
                     ArrayList<String> arrCook = new ArrayList<String>();
@@ -367,7 +375,11 @@ public class InputOrdersFragment extends Fragment {
                 new OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        intent.putExtra("position",position);
+                        getListsOnPos(mLstOrders.get(position));
+                        intent.putStringArrayListExtra("cook", cook);
+                        intent.putStringArrayListExtra("customer", customer);
+                        intent.putStringArrayListExtra("info", otherOrderInfo);
+                        intent.putExtra("isInput",true);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }
@@ -462,6 +474,17 @@ public class InputOrdersFragment extends Fragment {
         public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
         }
+    }
+
+    private void getListsOnPos(ArrayList<Object> lst){
+        cook = (ArrayList<String>)lst.get(10);
+        customer = (ArrayList<String>)lst.get(11);
+        otherOrderInfo = new ArrayList<String>();
+        for (int i = 0; i < lst.size(); i++) {
+            if(i!=10 && i!=11)
+                otherOrderInfo.add((String)lst.get(i));
+        }
+
     }
 
 }

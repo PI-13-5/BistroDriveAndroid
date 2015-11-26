@@ -52,7 +52,6 @@ public class OutputOrdersFragment extends Fragment {
     private View mOutputOrdersFormView;
 
     Intent intent;
-    Bundle checkBundle;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -61,6 +60,9 @@ public class OutputOrdersFragment extends Fragment {
     private ParserOutputOrders mOutputOrdersTask = null;
 
     private ArrayList<String> myDataset = new ArrayList<String>();
+    List<ArrayList<Object>> mLstOrders;
+    ArrayList<String> cook,otherOrderInfo,customer;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -97,6 +99,7 @@ public class OutputOrdersFragment extends Fragment {
 
     private ArrayList<String> getDataSet(List<ArrayList<Object>> lstOrders) {
 
+        mLstOrders = lstOrders;
         ArrayList<String> mDataSet = new ArrayList<>();
         for (ArrayList<Object> lstOrder:lstOrders) {
             ArrayList<String> lstCook = (ArrayList<String>)lstOrder.get(10);
@@ -220,9 +223,19 @@ public class OutputOrdersFragment extends Fragment {
                     arrOrder.add(jOrder.getString("Comunication"));//4
                     arrOrder.add(jOrder.getString("Delivery"));//5
                     arrOrder.add(jOrder.getString("Status"));//6
-                    arrOrder.add(jOrder.getString("Comment"));//7
+                    if (jOrder.getString("Comment")!="null") {
+                        arrOrder.add(jOrder.getString("Comment"));//7
+                    }
+                    else arrOrder.add(null);
                     arrOrder.add(jOrder.getString("Total"));//8
-                    arrOrder.add(jOrder.getString("FinishTime"));//9
+                    if (jOrder.getString("FinishTime")!="null") {
+                        time = new java.util.Date(Long.parseLong(jOrder.getString("FinishTime")) * 1000);
+                        strDate = sdfDate.format(time);
+                        arrOrder.add(strDate);//9
+                    }
+                    else{
+                        arrOrder.add(null);
+                    }
 
                     JSONObject jCook = jOrder.getJSONObject("Cook");
                     ArrayList<String> arrCook = new ArrayList<String>();
@@ -362,13 +375,16 @@ public class OutputOrdersFragment extends Fragment {
                 new OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        intent.putExtra("position", position);
+                        getListsOnPos(mLstOrders.get(position));
+                        intent.putStringArrayListExtra("cook", cook);
+                        intent.putStringArrayListExtra("customer", customer);
+                        intent.putStringArrayListExtra("info",otherOrderInfo);
+                        intent.putExtra("isInput",false);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }
                 }));
     }
-
 
     private class CustomViewHolder extends RecyclerView.ViewHolder {
 
@@ -458,6 +474,17 @@ public class OutputOrdersFragment extends Fragment {
         public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
         }
+    }
+
+    private void getListsOnPos(ArrayList<Object> lst){
+        cook = (ArrayList<String>)lst.get(10);
+        customer = (ArrayList<String>)lst.get(11);
+        otherOrderInfo = new ArrayList<String>();
+        for (int i = 0; i < lst.size(); i++) {
+            if(i!=10 && i!=11)
+            otherOrderInfo.add((String)lst.get(i));
+        }
+
     }
 
 }
