@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.test.BistroDrive.Fragments.OffersFragment;
 import com.test.BistroDrive.R;
 
 import java.io.InputStream;
@@ -43,6 +44,8 @@ public class OrderActivity extends AppCompatActivity {
 
     private View mProgressView;
     private View mOrderFormView;
+
+    private OrderTask mOrderTask = null;
 
     private boolean isInput;
 
@@ -78,17 +81,48 @@ public class OrderActivity extends AppCompatActivity {
         orderEmail = (TextView) findViewById(R.id.orderEmail);
         orderCookHeader = (TextView) findViewById(R.id.orderCookHeader);
 
-        showProgress(true);
-        if(isInput)
-        new OrderTask(customer.get(6),orderCookImage).execute();
-        else new OrderTask(cook.get(5),orderCookImage).execute();
+        if(order.get(7)!=null){
+            orderComment.setText(order.get(7));}
+        else{
+            findViewById(R.id.orderCommentHeader).setVisibility(View.INVISIBLE);
+            orderComment.setVisibility(View.INVISIBLE);}
+        orderDeadline.setText("Дедлайн: " + order.get(1));
+        orderPayment.setText("Оплата: " + order.get(3));
+        orderIngredientBuyer.setText("Покупает ингредиенты: "+ order.get(2));
+        orderDelivery.setText("Доставка: " + order.get(5));
+        orderTotal.setText("Оплата: " + order.get(8));
+        if(isInput) {
+            if( customer.get(2).equals(null))
+                orderCookText.setText(customer.get(2));
+            else orderCookText.setText(customer.get(3)+ " " + customer.get(4));
+            orderEmail.setText(customer.get(1));
+            orderCookHeader.setText("Заказчик");
+        }
+        else {
 
+            orderCookText.setText(cook.get(2));
+            orderEmail.setText(cook.get(1));
+            orderCookHeader.setText("Повар");
+        }
+        if(isInput)
+        mOrderTask =  new OrderTask(customer.get(6),orderCookImage);
+        else mOrderTask =  new OrderTask(cook.get(5),orderCookImage);
+        mOrderTask.execute();
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mOrderTask!=null)
+            mOrderTask.cancel(true);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case android.R.id.home:
+
                 finish();
                 break;
         }
@@ -124,32 +158,9 @@ public class OrderActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Bitmap result) {
+            mOrderTask = null;
             super.onPostExecute(result);
             imageView.setImageBitmap(result);
-            if(order.get(7)!=null){
-            orderComment.setText(order.get(7));}
-            else{
-                findViewById(R.id.orderCommentHeader).setVisibility(View.INVISIBLE);
-                orderComment.setVisibility(View.INVISIBLE);}
-            orderDeadline.setText("Дедлайн: " + order.get(1));
-            orderPayment.setText("Оплата: " + order.get(3));
-            orderIngredientBuyer.setText("Покупает ингредиенты: "+ order.get(2));
-            orderDelivery.setText("Доставка: " + order.get(5));
-            orderTotal.setText("Оплата: " + order.get(8));
-            if(isInput) {
-                if( customer.get(2).equals(null))
-                orderCookText.setText(customer.get(2));
-                else orderCookText.setText(customer.get(3)+ " " + customer.get(4));
-                orderEmail.setText(customer.get(1));
-                orderCookHeader.setText("Заказчик");
-            }
-            else {
-
-                orderCookText.setText(cook.get(2));
-                orderEmail.setText(cook.get(1));
-                orderCookHeader.setText("Повар");
-            }
-            showProgress(false);
         }
 
     }

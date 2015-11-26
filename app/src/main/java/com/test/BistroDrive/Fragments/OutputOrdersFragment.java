@@ -72,6 +72,12 @@ public class OutputOrdersFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(mOutputOrdersTask!=null)
+            mOutputOrdersTask.cancel(true);
+    }
 
     @Override
     public void onStart() {

@@ -2,9 +2,12 @@ package com.test.BistroDrive.Activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -69,6 +72,7 @@ public class DishActivity extends AppCompatActivity {
             dishDesc.setVisibility(View.INVISIBLE);}
 
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {

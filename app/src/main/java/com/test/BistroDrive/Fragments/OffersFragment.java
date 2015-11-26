@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.test.BistroDrive.Activity.DishActivity;
 import com.test.BistroDrive.DataObject;
@@ -51,6 +52,7 @@ public class OffersFragment extends Fragment {
     private static String LOG_TAG = "CardViewActivity";
 
     private ParserOffers mOfferTask = null;
+    private ParserOffers.ImageLoadTask mImageTask = null;
 
     private ArrayList<DataObject> myDataset = new ArrayList<DataObject>();
     private List<ArrayList<String>> mLstOrders;
@@ -59,6 +61,17 @@ public class OffersFragment extends Fragment {
     private int page = 0;
 
     private Intent intent;
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mImageTask!=null){
+            Log.d("TaskOFFER", "onStop IMage task");
+        mImageTask.cancel(true);}
+        if(mOfferTask!=null){
+            Log.d("TaskOFFER", "onStop offer task");
+        mOfferTask.cancel(true);}
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,14 +97,13 @@ public class OffersFragment extends Fragment {
             showProgress(true);
             mOfferTask = new ParserOffers(getArguments().getString("token"));
             mOfferTask.execute();
-            Log.d("OFFER","null" );
         }
         else
         {
-            Log.d("OFFER","notnull" );
             initRecyclerViewCard();
         }
     }
+
 
     private void initRecyclerViewCard() {
 
@@ -111,7 +123,6 @@ public class OffersFragment extends Fragment {
             @Override
             public void onItemClick(int position, View v) {
                 ArrayList <String> temp = mLstOrders.get(position);
-                Log.d("DISHOFFER", temp.get(1));
                 intent.putStringArrayListExtra("dish", temp);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
@@ -241,7 +252,11 @@ public class OffersFragment extends Fragment {
             mOfferTask = null;
             super.onPostExecute(results);
             mLstOrders = results;
-            new ImageLoadTask(results).execute();
+            myDataset = getDataSet(mLstOrders,arrBitmap);
+            initRecyclerViewCard();
+            showProgress(false);
+            mImageTask = new ImageLoadTask(results);
+            mImageTask.execute();
         }
 
         public class ImageLoadTask extends AsyncTask<Void, Void, ArrayList<Bitmap>> {
@@ -253,10 +268,17 @@ public class OffersFragment extends Fragment {
             }
 
             @Override
+            protected void onCancelled(ArrayList<Bitmap> bitmaps) {
+                super.onCancelled(bitmaps);
+                mOfferTask = null;
+            }
+
+            @Override
             protected ArrayList<Bitmap> doInBackground(Void... params) {
                 ArrayList<Bitmap> bt = new ArrayList<>();
                 try {
                     for (int i = 0; i < results.size(); i++) {
+                        if (isCancelled()) break;
                         ArrayList<String> buf = results.get(i);
                     URL urlConnection = new URL(buf.get(5));
                     HttpURLConnection connection = (HttpURLConnection) urlConnection
@@ -281,7 +303,6 @@ public class OffersFragment extends Fragment {
                 arrBitmap=result;
                 myDataset = getDataSet(mLstOrders,arrBitmap);
                 initRecyclerViewCard();
-                showProgress(false);
             }
 
         }
@@ -290,7 +311,13 @@ public class OffersFragment extends Fragment {
         ArrayList<DataObject> mDataSet = new ArrayList<>();
         for (int i = 0; i < results.size(); i++) {
             ArrayList<String> offer = results.get(i);
-            DataObject obj = new DataObject(offer.get(1),bt.get(i),offer.get(6),offer.get(7),offer.get(4));
+            DataObject obj = null;
+            if(bt!=null) {
+                obj = new DataObject(offer.get(1), bt.get(i), offer.get(6), offer.get(7), offer.get(4));
+            }
+            else{
+                obj = new DataObject(offer.get(1), null, offer.get(6), offer.get(7), offer.get(4));
+            }
             mDataSet.add(obj);
         }
         return mDataSet;

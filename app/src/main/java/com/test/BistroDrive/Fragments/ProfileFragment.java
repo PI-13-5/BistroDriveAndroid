@@ -41,6 +41,7 @@ public class ProfileFragment extends Fragment{
     private View mProfileFormScrollView;
 
     private ParserProfile mProfileTask = null;
+    private ImageLoadTask mImageTask = null;
 
     TextView textViewEmail;
     TextView textViewUserName;
@@ -95,6 +96,19 @@ public class ProfileFragment extends Fragment{
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
         return rootView;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(mProfileTask!=null) {
+            Log.d("TaskProfile", "onStop profile task");
+            mProfileTask.cancel(true);
+        }
+        if(mImageTask!=null) {
+            Log.d("TaskProfile", "onStop profile task");
+            mImageTask.cancel(true);
+        }
     }
 
     @Override
@@ -174,7 +188,6 @@ public class ProfileFragment extends Fragment{
             } finally {
                 conn.disconnect();
             }
-            Log.d("Profile", resultJson);
 
             JSONObject dataJsonObj = null;
 
@@ -209,7 +222,9 @@ public class ProfileFragment extends Fragment{
             CheckContentOfTextView(textViewAddress, results.get(7));
             CheckContentOfTextView(textViewDescriprion, results.get(8));
             CheckContentOfTextView(textViewEmail, results.get(1));
-            new ImageLoadTask(results.get(6), imageViewPortrait).execute();
+            showProgress(false);
+            mImageTask = new ImageLoadTask(results.get(6), imageViewPortrait);
+            mImageTask.execute();
         }
 
         private void CheckContentOfTextView (TextView txtView, String content)
@@ -250,9 +265,9 @@ public class ProfileFragment extends Fragment{
 
         @Override
         protected void onPostExecute(Bitmap result) {
+            mImageTask = null;
             super.onPostExecute(result);
             imageView.setImageBitmap(result);
-            showProgress(false);
         }
 
     }
