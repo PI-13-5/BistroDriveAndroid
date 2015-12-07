@@ -39,9 +39,13 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -66,10 +70,21 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private View mProgressView;
     private View mLoginFormView;
 
+    final String LOG_TAG = "myLogs";
+
+    final String FILENAME = "token.txt";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        File f = new File(getApplicationContext().getFilesDir(),FILENAME);
+        if (f.exists()){
+            Intent myIntent = new Intent(LoginActivity.this,MainActivity.class);
+            startActivity(myIntent);
+            finish();
+        }
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -325,8 +340,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             mAuthTask = null;
             showProgress(false);
             if (success) {
+                writeFile(tokenStr);
                 myIntent = new Intent(LoginActivity.this,MainActivity.class);
-                myIntent.putExtra("token", tokenStr);
                 startActivity(myIntent);
                 finish();
             } else {
@@ -401,6 +416,26 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             conn.disconnect();
         }
         return response;
+    }
+
+    void writeFile(String info) {
+        try {
+            File f = new File(getApplicationContext().getFilesDir(),FILENAME);
+            Boolean b = f.exists();
+            Log.d("myLogs", b.toString());
+            // отрываем поток для записи
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
+                    openFileOutput(FILENAME, Context.MODE_PRIVATE)));
+            // пишем данные
+            bw.write(info);
+            // закрываем поток
+            bw.close();
+            Log.d(LOG_TAG, "Файл записан");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 

@@ -1,5 +1,6 @@
 package com.test.BistroDrive.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.app.Fragment;
@@ -25,10 +26,20 @@ import com.test.BistroDrive.Fragments.ProfileFragment;
 import com.test.BistroDrive.Fragments.SecondFragment;
 import com.test.BistroDrive.R;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 
 public class MainActivity extends AppCompatActivity implements FirstFragment.onSomeEventListener{
 
     Bundle bundle = new Bundle();
+    String token;
+
+    final String FILENAME = "token.txt";
+
     public String result="a";
     int pos;
 
@@ -48,7 +59,9 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.onS
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bundle = getIntent().getExtras();
+        readFile();
+
+        bundle.putString("token", token);
 
         myTitle =  getTitle();
         myDrawerTitle = getResources().getString(R.string.menu);
@@ -135,6 +148,13 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.onS
                 fragment = new OutputOrdersFragment();
                 fragment.setArguments(bundle);
                 break;
+            case 4:
+                logout();
+                this.finish();
+                Intent intent = new Intent(this,LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
             default:
                 break;
         }
@@ -154,6 +174,13 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.onS
         } else {
             // error in creating fragment
             Log.e("MainActivity", "Error in creating fragment");
+        }
+    }
+
+    private void logout() {
+        File f = new File(getFilesDir(),FILENAME);
+        if(f.exists() && !f.isDirectory()) {
+            getApplicationContext().deleteFile(FILENAME);
         }
     }
 
@@ -216,6 +243,23 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.onS
     @Override
     public void someEvent(String s) {
         result = s;
+    }
+
+    void readFile() {
+        try {
+            // открываем поток для чтения
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    openFileInput(FILENAME)));
+            String str = "";
+            // читаем содержимое
+            while ((str = br.readLine()) != null) {
+                token = str;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

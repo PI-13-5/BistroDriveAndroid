@@ -203,7 +203,6 @@ public class OutputOrdersFragment extends Fragment {
             } finally {
                 conn.disconnect();
             }
-            Log.d("OUTPUTORDERS", resultJson);
 
             JSONObject dataJsonObj = null;
 
