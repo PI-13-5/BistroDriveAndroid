@@ -1,13 +1,20 @@
-<resources>
+﻿<resources>
 
     <!-- Strings related to login -->
+
     <string name="prompt_email">Email или Логин</string>
+
     <string name="prompt_password">Пароль</string>
+
     <string name="action_sign_in">Авторизироваться</string>
+
     <string name="action_sign_in_short">Авторизироваться</string>
 
     <string name="error_invalid_email">Неверный электронный адрес</string>
+
     <string name="error_invalid_password">Пароль должен быть от 6 и более символов</string>
+
     <string name="error_incorrect_password">Неверный пароль</string>
+
     <string name="error_field_required">Поле необходимо для заполнения</string>
 </resources>
