@@ -3,8 +3,7 @@
     android:id="@+id/label"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:text="test"
-    android:paddingLeft="10dp"
+    android:padding="15dp"
     android:textColor="@color/drawer_item_color"
     android:textSize="20sp">
 </TextView>

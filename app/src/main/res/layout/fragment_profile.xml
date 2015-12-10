@@ -2,6 +2,7 @@
 <RelativeLayout
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#ffffffff"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -38,13 +39,20 @@
             android:layout_alignBottom="@+id/profileImg"
             android:layout_toRightOf="@+id/profileImg"
             android:layout_toEndOf="@+id/profileImg" />
-        <ImageView
+        <com.pkmmte.view.CircularImageView
             android:id="@+id/profileImg"
             android:layout_width="70dp"
             android:layout_height="65dp"
+            android:scaleType="fitXY"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            app:border="true"
+            app:border_color="#EEEEEE"
+            app:border_width="3dp"
+            app:shadow="false"
+            android:layout_marginLeft="15dp" />
+
     </RelativeLayout>
 
     <ScrollView

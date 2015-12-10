@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
@@ -83,22 +86,38 @@
         android:layout_marginTop="29dp"
         android:layout_gravity="center_horizontal" />
 
-    <RelativeLayout
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_view_human"
+            android:clickable="true"
+        card_view:cardElevation="10dp"
+        android:layout_centerHorizontal="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/relativeLayout">
+        card_view:cardCornerRadius="7dp"
+            android:foreground="?android:attr/selectableItemBackground">
 
-        <ImageView
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:id="@+id/relativeLayoutHuman">
+
+        <com.pkmmte.view.CircularImageView
+            android:id="@+id/orderCookAvatar"
             android:layout_width="70dp"
             android:layout_height="65dp"
-            android:id="@+id/orderCookAvatar"
-            android:layout_alignParentTop="true"
+            android:scaleType="fitXY"
+            android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="10dp"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="26dp"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="27dp"
-            android:layout_marginBottom="27dp" />
+            app:border="true"
+            app:border_color="#000000"
+            app:border_width="4dp"
+            app:shadow="false"
+            android:paddingBottom="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -106,18 +125,18 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
             android:id="@+id/orderCookText"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_toRightOf="@+id/orderCookAvatar"
+            android:layout_alignParentTop="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/orderEmail"
             android:text="Medium Text"
-            android:layout_alignBottom="@+id/orderCookAvatar"
-            android:layout_alignLeft="@+id/orderCookText"
-            android:layout_alignStart="@+id/orderCookText" />
+            android:layout_toRightOf="@+id/orderCookAvatar"
+            android:layout_below="@+id/orderCookText" />
     </RelativeLayout>
+        </android.support.v7.widget.CardView>
 
     <TextView
         android:layout_width="wrap_content"
@@ -133,6 +152,7 @@
         android:layout_height="wrap_content"
         android:text="Комментариев нет"
         android:id="@+id/orderComment"
+        android:layout_margin="10dp"
         android:layout_marginTop="30dp" />
 
         </LinearLayout>

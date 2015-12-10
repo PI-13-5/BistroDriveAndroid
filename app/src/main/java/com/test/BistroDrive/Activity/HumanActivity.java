@@ -1,18 +1,14 @@
-package com.test.BistroDrive.Fragments;
-
+package com.test.BistroDrive.Activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.app.Fragment;
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,7 +19,6 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -35,14 +30,16 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class ProfileFragment extends Fragment{
+
+public class HumanActivity extends Activity{
+
 
     private View mProgressView;
     private View mProfileFormView;
     private View mProfileFormScrollView;
 
-    private ParserProfile mProfileTask = null;
-    private ImageLoadTask mImageTask = null;
+    private ParserHuman mHumanTask = null;
+    private ImageLoadTaskHuman mHumanImageTask = null;
 
     TextView textViewEmail;
     TextView textViewUserName;
@@ -51,6 +48,29 @@ public class ProfileFragment extends Fragment{
     TextView textViewAddress;
     ImageView imageViewPortrait;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_human);
+
+
+        mProgressView = findViewById(R.id.human_progress);
+        mProfileFormView = findViewById(R.id.human);
+        mProfileFormScrollView = findViewById(R.id.scrollHuman);
+
+        textViewEmail = (TextView) findViewById(R.id.email_human);
+        textViewUserName = (TextView) findViewById(R.id.name_human);
+        textViewName = (TextView) findViewById(R.id.NameAndSurnameHuman);
+        textViewDescriprion = (TextView) findViewById(R.id.humanDesc);
+        textViewAddress = (TextView) findViewById(R.id.humanPlace);
+        imageViewPortrait = (ImageView) findViewById(R.id.humanImg);
+
+        showProgress(true);
+        mHumanTask = new ParserHuman(getIntent().getStringExtra("token"),getIntent().getStringExtra("userName"));
+        mHumanTask.execute();
+
+
+    }
 
     public void showProgress(final boolean show) {
 
@@ -92,53 +112,15 @@ public class ProfileFragment extends Fragment{
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
-        return rootView;
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if(mProfileTask!=null) {
-            mProfileTask.cancel(true);
-        }
-        if(mImageTask!=null) {
-            mImageTask.cancel(true);
-        }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        View v = getView();
-        mProgressView = v.findViewById(R.id.profile_progress);
-        mProfileFormView = v.findViewById(R.id.profile);
-        mProfileFormScrollView = v.findViewById(R.id.scrollProfile);
-
-        textViewEmail = (TextView) getActivity().findViewById(R.id.email);
-        textViewUserName = (TextView) getActivity().findViewById(R.id.name);
-        textViewName = (TextView) getActivity().findViewById(R.id.NameAndSurname);
-        textViewDescriprion = (TextView) getActivity().findViewById(R.id.profileDesc);
-        textViewAddress = (TextView) getActivity().findViewById(R.id.profilePlace);
-        imageViewPortrait = (ImageView) getActivity().findViewById(R.id.profileImg);
-
-        showProgress(true);
-        mProfileTask = new ParserProfile(getArguments().getString("token"));
-        mProfileTask.execute();
-
-    }
-
-    class ParserProfile extends AsyncTask<Void, Void, List<String>> {
+    class ParserHuman extends AsyncTask<Void, Void, List<String>> {
 
         String resultJson = "";
         String tokenStr="";
-        public ParserProfile(String tok)
+        String userName;
+        public ParserHuman(String tok, String user)
         {
             this.tokenStr = tok;
+            this.userName = user;
         }
 
         @Override
@@ -164,6 +146,7 @@ public class ProfileFragment extends Fragment{
                         "    Method:\"profile\",\n" +
                         "    Token:\""+tokenStr+"\",\n" +
                         "    Parameters:{\n" +
+                        "        username:\""+userName+"\"\n" +
                         "    }\n" +
                         "}");
 
@@ -214,7 +197,7 @@ public class ProfileFragment extends Fragment{
 
         @Override
         protected void onPostExecute(List<String> results) {
-            mProfileTask = null;
+            mHumanTask = null;
             super.onPostExecute(results);
             CheckContentOfTextView(textViewName, results.get(3) + "  " + results.get(4));
             CheckContentOfTextView(textViewUserName, results.get(2));
@@ -222,25 +205,30 @@ public class ProfileFragment extends Fragment{
             CheckContentOfTextView(textViewDescriprion, results.get(8));
             CheckContentOfTextView(textViewEmail, results.get(1));
             showProgress(false);
-            mImageTask = new ImageLoadTask(results.get(6), imageViewPortrait);
-            mImageTask.execute();
+            mHumanImageTask = new ImageLoadTaskHuman(results.get(6), imageViewPortrait);
+            mHumanImageTask.execute();
         }
 
         private void CheckContentOfTextView (TextView txtView, String content)
         {
-            if(content=="null") content="Вы не заполнили данное поле";
+            if(content=="null") content="Данное поле не заполнено";
             txtView.setText(content);
         }
 
 
     }
 
-    public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
+    public class ImageLoadTaskHuman extends AsyncTask<Void, Void, Bitmap> {
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            mHumanImageTask = null;
+        }
 
         private String url;
         private ImageView imageView;
 
-        public ImageLoadTask(String url, ImageView imageView) {
+        public ImageLoadTaskHuman(String url, ImageView imageView) {
             this.url = url;
             this.imageView = imageView;
         }
@@ -264,13 +252,10 @@ public class ProfileFragment extends Fragment{
 
         @Override
         protected void onPostExecute(Bitmap result) {
-            mImageTask = null;
+            mHumanImageTask = null;
             super.onPostExecute(result);
             imageView.setImageBitmap(result);
         }
 
     }
 }
-
-
-

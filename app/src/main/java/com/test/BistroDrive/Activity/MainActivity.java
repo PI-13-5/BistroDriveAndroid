@@ -1,5 +1,6 @@
 package com.test.BistroDrive.Activity;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -23,7 +24,7 @@ import com.test.BistroDrive.Fragments.InputOrdersFragment;
 import com.test.BistroDrive.Fragments.OffersFragment;
 import com.test.BistroDrive.Fragments.OutputOrdersFragment;
 import com.test.BistroDrive.Fragments.ProfileFragment;
-import com.test.BistroDrive.Fragments.SecondFragment;
+import com.test.BistroDrive.Fragments.SearchFragment;
 import com.test.BistroDrive.R;
 
 import java.io.BufferedReader;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.onS
 
     Bundle bundle = new Bundle();
     String token;
+    public Boolean flag;
 
     final String FILENAME = "token.txt";
 
@@ -46,6 +48,9 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.onS
     private DrawerLayout myDrawerLayout;
     private ListView myDrawerList;
     private ActionBarDrawerToggle myDrawerToggle;
+
+    Fragment fragment = null;
+
 
     // navigation drawer title
     private CharSequence myDrawerTitle;
@@ -62,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.onS
         readFile();
 
         bundle.putString("token", token);
+        flag = false;
+        bundle.putBoolean("searchFlag", flag);
 
         myTitle =  getTitle();
         myDrawerTitle = getResources().getString(R.string.menu);
@@ -104,6 +111,18 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.onS
         }
 
         myDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+    }
+
+
+    public void callSearch(String text,String min,String max, String category,String city) {
+        flag = true;
+        bundle.putString("searchStr", text);
+        bundle.putString("min", min);
+        bundle.putString("max", max);
+        bundle.putString("category", category);
+        bundle.putString("city", city);
+        displayView(0);
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -125,30 +144,29 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.onS
 
     private void displayView(int position) {
         // update the main content by replacing fragments
-        Fragment fragment = null;
         switch (position) {
             case 0:
+                bundle.putBoolean("searchFlag", flag);
                 fragment = new OffersFragment();
                 fragment.setArguments(bundle);
                 break;
-/*            case 1:
-                fragment = new SecondFragment();
-                bundle.putString("result",result);
-                fragment.setArguments(bundle);
-                break;*/
             case 1:
-                fragment = new ProfileFragment();
+                fragment = new SearchFragment();
                 fragment.setArguments(bundle);
                 break;
             case 2:
-                fragment = new InputOrdersFragment();
+                fragment = new ProfileFragment();
                 fragment.setArguments(bundle);
                 break;
             case 3:
-                fragment = new OutputOrdersFragment();
+                fragment = new InputOrdersFragment();
                 fragment.setArguments(bundle);
                 break;
             case 4:
+                fragment = new OutputOrdersFragment();
+                fragment.setArguments(bundle);
+                break;
+            case 5:
                 logout();
                 this.finish();
                 Intent intent = new Intent(this,LoginActivity.class);
@@ -187,8 +205,10 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.onS
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+        // Associate searchable configuration with the SearchView
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -198,8 +218,6 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.onS
         }
         // Handle action bar actions click
         switch (item.getItemId()) {
-            case R.id.action_settings:
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -212,7 +230,6 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.onS
     public boolean onPrepareOptionsMenu(Menu menu) {
         // if navigation drawer is opened, hide the action items
         boolean drawerOpen = myDrawerLayout.isDrawerOpen(myDrawerList);
-        menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
         return super.onPrepareOptionsMenu(menu);
     }
 

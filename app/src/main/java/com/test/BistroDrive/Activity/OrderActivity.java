@@ -1,12 +1,9 @@
 package com.test.BistroDrive.Activity;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,7 +12,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.test.BistroDrive.Fragments.OffersFragment;
 import com.test.BistroDrive.R;
 
 import java.io.InputStream;
@@ -25,6 +21,7 @@ import java.util.ArrayList;
 
 
 public class OrderActivity extends AppCompatActivity {
+
 
     TextView orderDeadline;
     TextView orderIngredientBuyer;
@@ -162,35 +159,5 @@ public class OrderActivity extends AppCompatActivity {
             imageView.setImageBitmap(result);
         }
 
-    }
-
-    public void showProgress(final boolean show) {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            mOrderFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mOrderFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mOrderFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mOrderFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
     }
 }

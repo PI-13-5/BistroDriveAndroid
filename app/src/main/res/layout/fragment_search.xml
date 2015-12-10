@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/searchFormView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <!--progress -->
+    <ProgressBar android:id="@+id/search_progress" style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="8dp" android:visibility="gone" />
+    <RelativeLayout
+        android:id="@+id/searchFormView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchRelativeLayoutCommon">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:id="@+id/searchText"
+        android:layout_gravity="center_horizontal"
+        android:hint="Введите фразу..."
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="15dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Мин. сумма:"
+        android:id="@+id/MinSearch"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_below="@+id/searchText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="60dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="30dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Макс. сумма:"
+        android:id="@+id/MaxSearch"
+        android:layout_below="@+id/searchText"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="60dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginTop="30dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/minSearchNum"
+        android:layout_below="@+id/MinSearch"
+        android:layout_alignLeft="@+id/MinSearch"
+        android:layout_alignStart="@+id/MinSearch"
+        android:layout_alignRight="@+id/MinSearch"
+        android:layout_alignEnd="@+id/MinSearch" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/maxSearchNum"
+        android:layout_alignTop="@+id/minSearchNum"
+        android:layout_alignLeft="@+id/MaxSearch"
+        android:layout_alignStart="@+id/MaxSearch"
+        android:layout_alignRight="@+id/MaxSearch"
+        android:layout_alignEnd="@+id/MaxSearch" />
+
+    </RelativeLayout>
+
+    <View android:id="@+id/separator"
+        android:background="#000000"
+        android:layout_width = "fill_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/searchRelativeLayoutCommon"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp" />
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/separator"
+        android:id="@+id/searchRelativeLayoutOpt">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Опциональные критерии"
+        android:id="@+id/searchTextOpt"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Категория:"
+        android:id="@+id/searchTextCategory"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/searchTextOpt"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Город:"
+        android:id="@+id/searchTextCity"
+        android:layout_below="@+id/searchSpinnerCategory"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp" />
+
+    <Spinner
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchSpinnerCategory"
+        android:layout_below="@+id/searchTextCategory"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
+
+    <Spinner
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchSpinnerCity"
+        android:layout_below="@+id/searchTextCity"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="10dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Искать"
+            android:id="@+id/btnSearch"
+            android:layout_below="@+id/searchSpinnerCity"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+    </RelativeLayout>
+
+</ScrollView>

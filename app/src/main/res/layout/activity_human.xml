@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#ffffffff"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--progress -->
+    <ProgressBar android:id="@+id/human_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="8dp" android:visibility="gone" />
+
+
+    <RelativeLayout
+        android:id="@+id/human"
+        android:layout_width="320dp"
+        android:layout_height="124dp"
+        android:background="#ff9999ff"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+        <TextView
+            android:id="@+id/email_human"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:layout_below="@+id/name_human"
+            android:layout_alignLeft="@+id/name_human" />
+        <TextView
+            android:id="@+id/name_human"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:layout_marginLeft="33dp"
+            android:layout_marginStart="33dp"
+            android:layout_alignBottom="@+id/humanImg"
+            android:layout_toRightOf="@+id/humanImg"
+            android:layout_toEndOf="@+id/humanImg" />
+        <com.pkmmte.view.CircularImageView
+            android:id="@+id/humanImg"
+            android:layout_width="70dp"
+            android:layout_height="65dp"
+            android:scaleType="fitXY"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            app:border="true"
+            app:border_color="#EEEEEE"
+            app:border_width="3dp"
+            app:shadow="false"
+            android:layout_marginLeft="15dp" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/scrollHuman"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/human">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Large Text"
+                android:id="@+id/NameAndSurnameHuman"
+                android:layout_marginTop="41dp"
+                android:layout_gravity="center_horizontal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Large Text"
+                android:id="@+id/humanPlace"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Обо мне:"
+                android:id="@+id/textView2Human"
+                android:layout_marginTop="50dp"
+                android:layout_gravity="center_horizontal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/humanDesc"
+                android:layout_marginTop="40dp"
+                android:layout_gravity="center_horizontal" />
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

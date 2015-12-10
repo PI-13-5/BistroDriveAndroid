@@ -5,14 +5,14 @@
     <string name="action_settings">Settings</string>
     <string-array name="views_array">
         <item>Предложения</item>
+        <item>Поиск предложений</item>
         <item>Мой профиль</item>
         <item>Входящие заказы</item>
         <item>Исходящие заказы</item>
         <item>Выход</item>
     </string-array>
     <string name="menu">Меню</string>
-    <string name="first_screen">Мой профиль</string>
-    <string name="second_screen">Мои предложения</string>
     <string name="open_menu">Open</string>
     <string name="close_menu">Close</string>
+    <string name="action_search">Поиск предложений</string>
 </resources>
