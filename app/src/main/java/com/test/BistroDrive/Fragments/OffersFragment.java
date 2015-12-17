@@ -472,7 +472,7 @@ public class OffersFragment extends Fragment implements View.OnClickListener{
                     for (int i = 0; i < results.size(); i++) {
                         if (isCancelled()) break;
                         ArrayList<String> buf = results.get(i);
-                        URL urlConnection = new URL(buf.get(5));
+                        URL urlConnection = new URL(buf.get(5)+"?width=100");
                         HttpURLConnection connection = (HttpURLConnection) urlConnection
                                 .openConnection();
                         connection.setDoInput(true);

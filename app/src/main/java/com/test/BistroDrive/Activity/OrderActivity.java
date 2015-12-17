@@ -137,6 +137,7 @@ public class OrderActivity extends AppCompatActivity {
 
         @Override
         protected Bitmap doInBackground(Void... params) {
+            url+="?width=100";
             try {
                 URL urlConnection = new URL(url);
                 HttpURLConnection connection = (HttpURLConnection) urlConnection

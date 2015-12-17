@@ -19,7 +19,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.test.BistroDrive.Fragments.FirstFragment;
 import com.test.BistroDrive.Fragments.InputOrdersFragment;
 import com.test.BistroDrive.Fragments.OffersFragment;
 import com.test.BistroDrive.Fragments.OutputOrdersFragment;
@@ -34,7 +33,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class MainActivity extends AppCompatActivity implements FirstFragment.onSomeEventListener{
+public class MainActivity extends AppCompatActivity{
 
     Bundle bundle = new Bundle();
     String token;
@@ -255,11 +254,6 @@ public class MainActivity extends AppCompatActivity implements FirstFragment.onS
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggls
         myDrawerToggle.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    public void someEvent(String s) {
-        result = s;
     }
 
     void readFile() {
